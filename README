@@ -1,0 +1,6 @@
+A simple backpack which can be attached to a 12 pad keypad with a common terminal.
+Inputs:  
+VCC, GND.
+Output: 
+No key pressed: VCC
+Key pressed: Analog voltage unique to each individual key
