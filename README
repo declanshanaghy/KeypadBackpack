@@ -4,3 +4,6 @@ VCC, GND.
 Output: 
 No key pressed: VCC
 Key pressed: Analog voltage unique to each individual key
+
+Also included is an ardunio library which abstracts the 
+analog voltage readings into discrete key presses

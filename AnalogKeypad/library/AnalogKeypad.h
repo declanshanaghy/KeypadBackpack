@@ -22,7 +22,7 @@
 class AnalogKeypad
 {
 public:
-    AnalogKeypad(int pin, int rLadder=1000, int rPull=12000, int vcc=5, int adcMax=1023);
+    AnalogKeypad(int pin, int rPull=12000, int rLadder=1000, int vcc=5, int adcMax=1023);
 	int readKey();
 	void init();
 	

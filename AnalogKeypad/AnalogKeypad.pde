@@ -8,7 +8,7 @@
 /*****************************
   GLOBAL VARS
 ******************************/
-AnalogKeypad kpad = AnalogKeypad(PIN_KEYS);
+AnalogKeypad kpad = AnalogKeypad(PIN_KEYS, 10000);
 
 void setup() {
   Serial.begin(115200);

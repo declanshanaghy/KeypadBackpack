@@ -1,6 +1,6 @@
 #include "AnalogKeypad.h"
 
-AnalogKeypad::AnalogKeypad(int pin, int rLadder, int rPull, int vcc, int adcMax)
+AnalogKeypad::AnalogKeypad(int pin, int rPull, int rLadder, int vcc, int adcMax)
 {
 	_pin = pin;
 	_rLadder = rLadder;
