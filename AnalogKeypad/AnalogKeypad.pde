@@ -1,3 +1,5 @@
+#define DEBUG 1
+
 #include <AnalogKeypad.h>
 
 /***************************
@@ -8,7 +10,7 @@
 /*****************************
   GLOBAL VARS
 ******************************/
-AnalogKeypad kpad = AnalogKeypad(PIN_KEYS, 10000);
+AnalogKeypad kpad = AnalogKeypad(PIN_KEYS);
 
 void setup() {
   Serial.begin(115200);
