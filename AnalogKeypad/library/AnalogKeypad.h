@@ -17,6 +17,9 @@
 #define KEY_6			10
 #define KEY_3			11
 
+#define REPEAT_MAX		0
+#define REPEAT_OFF		-1
+
 class AnalogKeypad
 {
 public:
@@ -28,13 +31,16 @@ public:
 					(it is assumed the voltage at the common terminal is 0v)
 	 adcMax:		The max reading of the voltage divider when a key is not pressed.
 	 nBounce:		# of consecutive readings same value readings needed to ensure debouncing of the keys
-	 repeatRate:	Repeat rate of key events when the key is depressed for a long length of time (<= 0 = off)
-					(In between actual key events KEY_NONE will be returned)
+	 repeatRate:	Repeat rate of key events when the key is depressed.
+					In between actual key events KEY_NONE will be returned.
+					>  0				:	User specified repeat rate
+					== 0 (REPEAT_MAX)	:	Report key events as fast as possible
+					<  0 (REPEAT_OFF)	:	Only 1 key event will be reported no matter how long the key is depressed
 	 
 	 returns:		One of the key constants: KEY_NONE thru KEY_3
-	 **********************************************************************************************************/
+	 **************************************************************************************************************/
     AnalogKeypad(int pin, int rPull=12000, int rLadder=1000, int vcc=5, int adcMax=1023, 
-				 int nBounce=15, int repeatRate=1);
+				 int tDebounce=20, int repeatRate=1);
 	int readKey();
 	void init();
 	
@@ -45,12 +51,12 @@ private:
 	int _vcc;
 	int _adcMax;
 	int _minGap;
-	int _nBounce;
+	int _tDebounce;
 	int _tRepeatPeriod;
 	
 	int _vals[12];
+	short _keyLocked;
 	short _lastKey;
-	int _nKeyCount;
 	short _lastKeyDebounced;
 	long _tLastKeyDebounced;
 };

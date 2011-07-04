@@ -1,5 +1,3 @@
-#define DEBUG 1
-
 #include <AnalogKeypad.h>
 
 /***************************
