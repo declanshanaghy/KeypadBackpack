@@ -2,14 +2,14 @@ EAGLE AutoRouter Statistics:
 
 Job           : /Users/dshanaghy/Workspace/PersonalProjects/KeypadBackpack/KeypadBackpack.brd
 
-Start at      : 22:41:14 (5/10/11)
-End at        : 22:41:14 (5/10/11)
+Start at      : 00:01:21 (8/20/11)
+End at        : 00:01:21 (8/20/11)
 Elapsed time  : 00:00:00
 
 Signals       :    15   RoutingGrid: 10 mil  Layers: 1
-Connections   :    27   predefined:  0 ( 0 Vias )
+Connections   :    27   predefined:  23 ( 0 Vias )
 
-Router memory :   36408
+Router memory :   35752
 
 Passname          :     Route Optimize1 Optimize2 Optimize3 Optimize4
 
@@ -18,7 +18,7 @@ Number of Ripups  :         0         0         0         0         0
 max. Level        :         0         0         0         0         0
 max. Total        :         0         0         0         0         0
 
-Routed            :        27        27        27        27        27
+Routed            :         4         4         4         4         4
 Vias              :         0         0         0         0         0
 Resolution        :   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
 

@@ -25,22 +25,23 @@ class AnalogKeypad
 public:
 	/**********************************************************************************************************
 	 pin:			Analog input pin the keypad signal wire is connected to.
+	 repeatRate:	Repeat rate of key events when the key is depressed.
+					In between actual key events KEY_NONE will be returned.
+					>  0				:	User specified repeat rate
+					== 0 (REPEAT_MAX)	:	Report key events as fast as possible
+					<  0 (REPEAT_OFF)	:	Only 1 key event will be reported no matter how long the key is depressed
 	 rPull:			Ohm value of the pullup resistor on the keypad backpack.
 	 rLadder:		Ohm value of each of the identical resistors in the resistor ladder
 	 vcc:			Voltage applied to the high side of the voltage divider 
 					(it is assumed the voltage at the common terminal is 0v)
 	 adcMax:		The max reading of the voltage divider when a key is not pressed.
 	 nBounce:		# of consecutive readings same value readings needed to ensure debouncing of the keys
-	 repeatRate:	Repeat rate of key events when the key is depressed.
-					In between actual key events KEY_NONE will be returned.
-					>  0				:	User specified repeat rate
-					== 0 (REPEAT_MAX)	:	Report key events as fast as possible
-					<  0 (REPEAT_OFF)	:	Only 1 key event will be reported no matter how long the key is depressed
 	 
 	 returns:		One of the key constants: KEY_NONE thru KEY_3
 	 **************************************************************************************************************/
-    AnalogKeypad(int pin, int rPull=12000, int rLadder=1000, int vcc=5, int adcMax=1023, 
-				 int tDebounce=20, int repeatRate=1);
+    AnalogKeypad(int pin, int rPull=12000, int repeatRate=1, 
+				 int rLadder=1000, int vcc=5, int adcMax=1023, 
+				 int tDebounce=20);
 	int readKey();
 	void init();
 	
