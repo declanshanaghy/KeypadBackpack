@@ -1,7 +1,8 @@
 #include "AnalogKeypad.h"
 
-AnalogKeypad::AnalogKeypad(int pin, int repeatRate, int rPull, int rLadder, int vcc, int adcMax, int tDebounce)
-{
+AnalogKeypad::AnalogKeypad(int pin, int repeatRate, int rPull, 
+						   int rLadder, int vcc, int adcMax, 
+						   int tDebounce) {
 	_pin = pin;
 	_rLadder = rLadder;
 	_rPull = rPull;
@@ -26,15 +27,18 @@ void AnalogKeypad::init() {
 	float v, vK;
 	float stv = (float)_adcMax / _vcc;
 	
-	//Calculate all the voltage divider values for each key and map into an array
+	//Calculate all the voltage divider values for 
+	//each key and map into an array
 	for ( int i=0; i<12; i++ ) {
 		vK = _rLadder * (i+1);
 		v = (vK / (_rPull + vK)) * _vcc;
 		_vals[i] = v * stv;
-		//Serial.print("vals["); Serial.print(i); Serial.print("] = "); Serial.println(_vals[i]);
+		//Serial.print("vals["); Serial.print(i); 
+		//Serial.print("] = "); Serial.println(_vals[i]);
 	}
 	
-	//Calc the min gap between values as a threshold to use when reading keys
+	//Calc the min gap between values as a threshold to 
+	//use when reading keys
 	int g;
 	_minGap = 32767;
 	for ( int i=0; i<11; i++ ) {
@@ -45,8 +49,75 @@ void AnalogKeypad::init() {
 //	Serial.print("_minGap="); Serial.println(_minGap);
 }
 
-int AnalogKeypad::readKey()
-{
+char AnalogKeypad::getLastKeyChar() {
+	switch ( _lastKeyRead ) {
+		case KEY_0:
+			return '0';
+		case KEY_1:
+			return '1';
+		case KEY_2:
+			return '2';
+		case KEY_3:
+			return '3';
+		case KEY_4:
+			return '4';
+		case KEY_5:
+			return '5';
+		case KEY_6:
+			return '6';
+		case KEY_7:
+			return '7';
+		case KEY_8:
+			return '8';
+		case KEY_9:
+			return '9';
+		case KEY_STAR:
+			return '*';
+		case KEY_POUND:
+			return '#';
+		case KEY_NONE:
+			return NULL;
+	}	
+}
+
+int AnalogKeypad::getLastKeyNumber() {
+	switch ( _lastKeyRead ) {
+		case KEY_0:
+			return 0;
+		case KEY_1:
+			return 1;
+		case KEY_2:
+			return 2;
+		case KEY_3:
+			return 3;
+		case KEY_4:
+			return 4;
+		case KEY_5:
+			return 5;
+		case KEY_6:
+			return 6;
+		case KEY_7:
+			return 7;
+		case KEY_8:
+			return 8;
+		case KEY_9:
+			return 9;
+		default:
+			return -1;
+	}
+}
+
+short AnalogKeypad::getLastKey() {
+	return _lastKeyRead;
+}
+
+short AnalogKeypad::readKey() {
+	short k = _readKey();
+	_lastKeyRead = k;
+	return k;
+}
+
+short AnalogKeypad::_readKey() {
 	long tNow = millis();
 	short thisKey = KEY_NONE;
 	
@@ -56,7 +127,8 @@ int AnalogKeypad::readKey()
 	if ( v >= _vals[11] + _minGap )
 		thisKey = KEY_NONE;
 	else {
-		//Cycle thru all key values from highest to lowest and find the closest mapping
+		//Cycle thru all key values from highest to lowest 
+		//and find the closest mapping
 		for ( int i=11; i>=0; i-- ) {
 			if ( v >= _vals[i] - _minGap ) {
 				thisKey = i;
@@ -97,13 +169,14 @@ int AnalogKeypad::readKey()
 //					Serial.print("readKey="); Serial.println(thisKey);
 					return thisKey;
 				}
-				else 
+				else {
 					//Don't report a key event, its not time yet.
 //					Serial.println("readKey=waiting...");
-				return KEY_NONE;
+					return KEY_NONE;
+				}
 			}
 			else if ( _tRepeatPeriod == REPEAT_MAX ) {	//Max repeat rate
-				Serial.print("readKey="); Serial.println(thisKey);
+//				Serial.print("readKey="); Serial.println(thisKey);
 				return thisKey;
 			}
 			else {	//No REPEAT

@@ -1,7 +1,11 @@
 #ifndef ANALOGKEYPAD_h
 #define ANALOGKEYPAD_h
 
+#if ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include "WProgram.h"
+#endif
 
 #define KEY_NONE		-1
 #define KEY_STAR		0
@@ -23,29 +27,41 @@
 class AnalogKeypad
 {
 public:
-	/**********************************************************************************************************
+	/************************************************************************
 	 pin:			Analog input pin the keypad signal wire is connected to.
 	 repeatRate:	Repeat rate of key events when the key is depressed.
 					In between actual key events KEY_NONE will be returned.
 					>  0				:	User specified repeat rate
-					== 0 (REPEAT_MAX)	:	Report key events as fast as possible
-					<  0 (REPEAT_OFF)	:	Only 1 key event will be reported no matter how long the key is depressed
+					== 0 (REPEAT_MAX)	:	Report key events as fast 
+											as possible
+					<  0 (REPEAT_OFF)	:	Only 1 key event will be 
+	                                        reported no matter how long 
+											the key is depressed
 	 rPull:			Ohm value of the pullup resistor on the keypad backpack.
-	 rLadder:		Ohm value of each of the identical resistors in the resistor ladder
+	 rLadder:		Ohm value of each of the identical resistors 
+	                in the resistor ladder
 	 vcc:			Voltage applied to the high side of the voltage divider 
 					(it is assumed the voltage at the common terminal is 0v)
-	 adcMax:		The max reading of the voltage divider when a key is not pressed.
-	 nBounce:		# of consecutive readings same value readings needed to ensure debouncing of the keys
+	 adcMax:		The max reading of the voltage divider when a key is 
+					not pressed.
+	 nBounce:		# of consecutive readings same value readings needed to 
+					ensure debouncing of the keys
 	 
 	 returns:		One of the key constants: KEY_NONE thru KEY_3
-	 **************************************************************************************************************/
+	 ************************************************************************/
     AnalogKeypad(int pin, int rPull=12000, int repeatRate=1, 
 				 int rLadder=1000, int vcc=5, int adcMax=1023, 
 				 int tDebounce=20);
-	int readKey();
 	void init();
+	short readKey();
+	short getLastKey();
+	char getLastKeyChar();
+	int getLastKeyNumber();
 	
 private:	
+	short _readKey();
+	
+	int _vals[12];
 	int _pin;
 	int _rLadder;
 	int _rPull;
@@ -55,9 +71,9 @@ private:
 	int _tDebounce;
 	int _tRepeatPeriod;
 	
-	int _vals[12];
 	short _keyLocked;
 	short _lastKey;
+	short _lastKeyRead;	
 	short _lastKeyDebounced;
 	long _tLastKeyDebounced;
 };
